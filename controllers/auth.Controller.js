@@ -1,0 +1,42 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+const handleLogIn = async (req, res) => {
+    try {
+        const { fname, pwd, email } = req.body;
+        if (!fname || !pwd || !email) {
+            return res.status(400).json({ "message": "FullName ,email and password are required please" })
+        };
+        const foundeUser = await User.findOne({ fullName:fname}).exec();
+        if (!foundeUser) {
+            return res.status(401).json({ "message": "Unauthorised" })
+        }
+        console.log(foundeUser);
+        const match = await bcrypt.compare(pwd,foundeUser.password);
+        console.log(match);
+        if (!match) return res.status(401).json({ message: "Unauthorisedw" });
+        
+        const accessToken = jwt.sign({
+            "fullName": foundeUser.fullName,
+            "email": foundeUser.email
+        }, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '30s'
+        })
+        const refreshToken = jwt.sign({
+            "fullName": foundeUser.fullName,
+            "email": foundeUser.email
+        }, process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: '1d' })
+        foundeUser.refreshToken = refreshToken;
+        const result = await foundeUser.save();
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.json(accessToken)
+    }
+
+
+    catch (err) {
+        console.error(err);
+    }
+}
+module.exports = { handleLogIn }

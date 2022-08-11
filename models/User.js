@@ -5,14 +5,14 @@ const userSchema = new Schema({
         type:String,
         required:true,
     },
-    email:{
-        type:String,
-        required:[true,'Email is required please!'],
-        match:[/\s+@+gmail+.+s+\$/,'Email is invalid']
-    },
     password:{
         type:String,
         required:true
+    },
+    email:{
+        type:String,
+        required:[true,'Email is required please!'],
+        // match:[/s+@+gmail+.+s+/,'Email is invalid']
     }
 });
 module.exports = mongoose.model('User',userSchema);
