@@ -2,8 +2,8 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const refreshTokenHandler = async(req,res)=>{
-    const cookies = req.cookie;
-    if(!cookies?.refreshtoken){
+    const cookies = req.cookies;
+    if(!cookies?.refreshToken){
         return res.status(401).json({message:"Unauthorised!"})
     }
     const refreshToken = cookies.refreshToken;

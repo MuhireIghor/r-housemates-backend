@@ -15,7 +15,7 @@ const handleNewUser = async(req,res)=>{
         console.log(hashedPwd);
         const newUser = await User.create({
             "fullName":fname,
-            "password":pwd,
+            "password":hashedPwd,
             "email":email
         }
         )

@@ -1,0 +1,156 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.main{
+    /* background-color:#000113; */
+    width: 45vw;
+    height: 80vh;
+    margin:120px auto;
+}
+
+.rectangle{
+height: 504.8060913085938px;
+width: 360px;
+border-radius: 0px;
+background-color: blue;
+margin:1px auto;
+
+}
+.logo{
+position: absolute;
+    width: 341px;
+    height: 130.14px;
+    background: url('../image/img1.png');
+    margin: -135px auto;
+    
+    
+}
+
+.vector1{
+position: absolute;
+width: 361px;
+height:30%;
+background: #C4C4C4;
+border-radius: 30px;
+}
+.subtract{
+ position: absolute;
+    width: 360px;
+    height: 80%;  
+    background: #1E293B;
+    margin: 2px auto;
+}
+.rectangle1{
+position: absolute;
+width: 360px;
+height: 100%;
+background:#1E293B;
+}
+.signup{
+
+    position: absolute;
+    width: 120px;
+    height: 38px;
+    left: 120px;  
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 38px;
+    /* identical to box height */
+    letter-spacing: 0.04em;
+    
+    color: #FFFFFF;
+}
+
+.input1{
+position: absolute;
+width: 127px;
+height: 20px;
+left: 31px;
+top: 310px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 300;
+font-size: 12px;
+line-height: 20px;
+color: #FFFFFF;
+}
+.input2{
+    position: absolute;
+    width: 127px;
+    height: 20px;
+    left: 31px;
+    top: 350px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 20px;
+    color: #FFFFFF;
+    }
+    .input3{
+        position: absolute;
+        width: 127px;
+        height: 20px;
+        left: 31px;
+        top: 390px;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 20px;
+        color: #FFFFFF;
+        }
+.label1{
+    
+position: absolute;
+width: 138px;
+height: 20px;
+left: 31px;
+top: 330px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+
+/* identical to box height, or 143% */
+
+color: #CCCCCC;
+}
+.label2{
+    
+position: absolute;
+width: 138px;
+height: 20px;
+left: 31px;
+top: 370px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+
+}
+.label3{
+    
+position: absolute;
+width: 138px;
+height: 20px;
+left: 31px;
+top: 410px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+
+/* identical to box height, or 143% */
+
+color: #CCCCCC;
+}
