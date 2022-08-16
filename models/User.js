@@ -13,6 +13,13 @@ const userSchema = new Schema({
         type:String,
         required:[true,'Email is required please!'],
         // match:[/s+@+gmail+.+s+/,'Email is invalid']
+    },
+    roles:{
+        user:Number,
+        admin:{
+            type:Number,
+            default:2
+        }
     }
 });
 module.exports = mongoose.model('User',userSchema);

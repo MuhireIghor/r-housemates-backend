@@ -13,15 +13,19 @@ const handleLogIn = async (req, res) => {
             return res.status(401).json({ "message": "Unauthorised" })
         }
         console.log(foundeUser);
-        const match = await bcrypt.compare(pwd, foundeUser.password);
+        const match = await bcrypt.compare(pwd,foundeUser.password);
         console.log(match);
         console.log(pwd);
         if (match){
+            const roles = Object.values(foundeUser.roles)
             const accessToken = jwt.sign({
-                "fullName": foundeUser.fullName,
-                "email": foundeUser.email
+                "AboutUser":{
+                    "fullName": foundeUser.fullName,
+                    "email": foundeUser.email,
+                    "roles":roles
+                }
             }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '30s'
+                expiresIn: '60s'
             })
             const refreshToken = jwt.sign({
                 "fullName": foundeUser.fullName,

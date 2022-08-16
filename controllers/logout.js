@@ -1,7 +1,7 @@
 const exepress= require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const handleLogOut = async(req,res,next)=>{
+const handleLogOut = async(req,res)=>{
     const cookies = req.cookies;
     if(!cookies?.refreshToken) return res.status(403).json({message:'Unauthorised'});
     const refreshToken = cookies.refreshToken;
