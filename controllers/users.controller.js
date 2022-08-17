@@ -6,45 +6,39 @@ const getUser = async(req,res)=>{
     console.log(users);
     res.send(users);
 }
-const handleNewUser = async(req,res)=>{
+const createNewUser = async(req,res)=>{
+    if(!req?.body?.fname||!req?.body?.email || req?.body.pwd){
+        return res.status(400).json({"message":"fullname,email and password are required please!"})
+    }
     try{
-    const{fname,pwd,email} = req.body;
-    if(!fname || !pwd || !email){
-        return res.sendStatus(400).json({"message":"fullName,password and email are required please"});
-    }
-
-        const duplicate = await User.findOne({fullName:fname,password:pwd}).exec();
-        if(duplicate) return res.sendStatus(409).json({"message":"User already exists!"});
-        const salt = await bcrypt.genSalt(10);
-        const hashedPwd = await bcrypt.hash(pwd,salt);
-        console.log(hashedPwd);
-        const newUser = await User.create({
-            "fullName":fname,
-            "password":hashedPwd,
-            "email":email
-        }
-        )
-        res.status(201).json({"message":`New user ${newUser.fullName} is created`});
-        console.log(newUser);
-    }
-    catch(err){
+        const result = await User.create({
+            fullName:req.body.fname,
+            email:req.body.email,
+            password:req.body.pwd
+              });
+        res.status(201).json({result}) ;
+    }catch(err){
         console.error(err);
-     res.sendStatus(500).json({error:true,message:"an error occured"})
     }
-   
-};
+    
+        // res.status(201).json({
+            //     'firstName':req.body.firstName,
+            //     'lastName':req.body.lastName
+            // })
+        };
 const updateUser = async(req,res)=>{
 const user = await User.findByIdAndUpdate(req.params.id,
-    {$set:{
+    {
         fullName:req.body.fname,
         email:req.body.email
     }
-        
-    }
+    
 
 ,{new:true}
 )
 const result = await user.save();
+res.send(result);
+console.log(result);
 
 }
 const deleteUser = async(req,res)=>{
@@ -55,7 +49,7 @@ const deleteUser = async(req,res)=>{
         if(user){
             console.log('user deleted');
             console.log(user);
-            res.send(user);
+            res.send(user).sendStatus(204);
         } 
     }
     catch(err){
@@ -72,4 +66,4 @@ const getOneUser = async(req,res)=>{
         console.log(`uses with id ${req.params.id} is not found!`);
     }
 }
-module.exports = {getUser,handleNewUser,updateUser,deleteUser,getOneUser}
+module.exports = {getUser,createNewUser,updateUser,deleteUser,getOneUser}

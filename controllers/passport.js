@@ -1,17 +1,21 @@
-const passport = require('passport');
+ const passport = require('passport');
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
-const GOOGLE_CLIENT_ID = '222987571141-27ig605839lk29s4d4ism267pr66r9b8.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
+const Google = require('../models/Google')
 passport.use(new GoogleStrategy({
-    clientID:     GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
+    clientID:process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/google/callback",
     passReqToCallback: true
   },
-  function(request, accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return done(null, profile);
-    });
+  async function(request, accessToken, refreshToken, profile, done) {
+    try{
+
+      const result = await Google.create({googleId:profile.id,fullName:profile.displayName});
+      console.log(result);
+      console.log(profile);
+    }catch(err){
+      console.log(err.message);
+    }
   }
 ));
 passport.serializeUser(function(user,done){
