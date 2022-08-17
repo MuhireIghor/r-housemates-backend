@@ -1,6 +1,6 @@
  const passport = require('passport');
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
-const Google = require('../models/Google')
+const User = require('../models/User');
 passport.use(new GoogleStrategy({
     clientID:process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -8,14 +8,32 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
   },
   async function(request, accessToken, refreshToken, profile, done) {
-    try{
+   await User.findOne({googleId:profile.id,fullName:profile.displayName,email:profile.email},function(err,currentUser){
+      if(currentUser !== null){
+        done(null,currentUser);
+        console.log(currentUser);
+      }
+      else{
+        var d = new Date();
+        var n = d.getTime();
+        var User3 = {
+          googleId:profile.id,
+          username:profile.displayName,
+          // refreshToken:refreshToken,
+          email:profile.email,
+  
+        };
+        User.create(User3,(err,newUser)=>{ });
+        var newUser = User3;
+        done(null,newUser);
+        console.log(newUser);
+      }
 
-      const result = await Google.create({googleId:profile.id,fullName:profile.displayName});
-      console.log(result);
-      console.log(profile);
-    }catch(err){
-      console.log(err.message);
-    }
+    });
+      // console.log(result);
+      // console.log(profile);
+      //    console.log(err.message);
+    
   }
 ));
 passport.serializeUser(function(user,done){

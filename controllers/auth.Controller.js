@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User2 = require('../models/User2');
 
 const handleLogIn = async (req, res) => {
     try {
@@ -8,7 +8,7 @@ const handleLogIn = async (req, res) => {
         if (!fname||!pwd||!email) {
             return res.status(400).json({ "message": "FullName ,email and password are required please" })
         };
-        const foundeUser = await User.findOne({ fullName:fname}).exec();
+        const foundeUser = await User2.findOne({ fullName:fname}).exec();
         if (!foundeUser) {
             return res.status(401).json({ "message": "Unauthorised" })
         }

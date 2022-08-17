@@ -1,8 +1,8 @@
 const express = require('express');
-const User = require('../models/User');
+const User2 = require('../models/User2');
 const bcrypt = require('bcrypt');
 const getUser = async(req,res)=>{
-    const users = await User.find();
+    const users = await User2.find();
     console.log(users);
     res.send(users);
 }
@@ -11,7 +11,7 @@ const createNewUser = async(req,res)=>{
         return res.status(400).json({"message":"fullname,email and password are required please!"})
     }
     try{
-        const result = await User.create({
+        const result = await User2.create({
             fullName:req.body.fname,
             email:req.body.email,
             password:req.body.pwd
@@ -27,7 +27,7 @@ const createNewUser = async(req,res)=>{
             // })
         };
 const updateUser = async(req,res)=>{
-const user = await User.findByIdAndUpdate(req.params.id,
+const user = await User2.findByIdAndUpdate(req.params.id,
     {
         fullName:req.body.fname,
         email:req.body.email
@@ -45,7 +45,7 @@ const deleteUser = async(req,res)=>{
     try{
 
         
-        const user = await User.findByIdAndRemove(req.params.id).exec();
+        const user = await User2.findByIdAndRemove(req.params.id).exec();
         if(user){
             console.log('user deleted');
             console.log(user);
@@ -58,7 +58,7 @@ const deleteUser = async(req,res)=>{
     }
 }
 const getOneUser = async(req,res)=>{
-    const user = await User.findOne({_id:req.params.id});
+    const user = await User2.findOne({_id:req.params.id});
     if(user) {
         console.log('user successfully found!');
         res.send(user)

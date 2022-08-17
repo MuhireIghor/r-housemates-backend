@@ -45,7 +45,7 @@ app.get('/auth/failure', (req, res) => {
     res.send('something went wrong!!')
 })
 app.get('/protected', isLoggedin, (req, res) => {
-    res.send(`hello ${req.user.displayName}`)
+    res.send(`hello ${req.user.userName}`)
 })
 app.get('/passportlogout', (req, res) => {
     res.logout();

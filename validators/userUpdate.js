@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
-const  User = require('../models/User');
+const  User2 = require('../models/User2');
 const validateUser = async(req,res,next)=>{
     try{
         const schema = Joi.object({

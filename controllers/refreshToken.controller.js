@@ -1,13 +1,13 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User2 = require('../models/User2');
 const refreshTokenHandler = async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.refreshToken) {
         return res.status(401).json({ message: "Unauthorised!NO cookies found" })
     }
     const refreshToken = cookies.refreshToken;
-    const foundeUser = await User.findOne({ refreshToken: refreshToken });
+    const foundeUser = await User2.findOne({ refreshToken: refreshToken });
     console.log(foundeUser);
     if (!foundeUser) return res.status(401);
     jwt.verify(

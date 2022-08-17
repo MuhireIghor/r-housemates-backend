@@ -1,25 +1,10 @@
 const mongoose = require('mongoose');
+const express = require('express');
 const Schema = mongoose.Schema;
 const userSchema = new Schema({
-    fullName:{
-        type:String,
-        required:true,
-    },
-    password:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
-        required:[true,'Email is required please!'],
-        // match:[/s+@+gmail+.+s+/,'Email is invalid']
-    },
-    roles:{
-        user:Number,
-        admin:{
-            type:Number,
-            default:2
-        }
-    }
+    username:String,
+    googleId:String,
+    email:String
+    
 });
 module.exports = mongoose.model('User',userSchema);
