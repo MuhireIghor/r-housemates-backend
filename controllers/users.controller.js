@@ -1,69 +1,63 @@
 const express = require('express');
 const User2 = require('../models/User2');
 const bcrypt = require('bcrypt');
-const getUser = async(req,res)=>{
+const createError = require('../config/error');
+const getUser = async (req, res) => {
     const users = await User2.find();
     console.log(users);
-    res.send(users);
+    res.json(users).status(200);
 }
-const createNewUser = async(req,res)=>{
-    if(!req?.body?.fname||!req?.body?.email || req?.body.pwd){
-        return res.status(400).json({"message":"fullname,email and password are required please!"})
+const createNewUser = async (req, res, next) => {
+    if (!req?.body?.fname || !req?.body?.email || req?.body.pwd) {
+        return res.status(400).json({ "message": "fullname,email and password are required please!" })
     }
-    try{
+    try {
         const result = await User2.create({
-            fullName:req.body.fname,
-            email:req.body.email,
-            password:req.body.pwd
-              });
-        res.status(201).json({result}) ;
-    }catch(err){
-        console.error(err);
+            fullName: req.body.fname,
+            email: req.body.email,
+            password: req.body.pwd
+        });
+        res.status(201).json(result);
+    } catch (err) {
+        next(err);
     }
-    
-        // res.status(201).json({
-            //     'firstName':req.body.firstName,
-            //     'lastName':req.body.lastName
-            // })
-        };
-const updateUser = async(req,res)=>{
-const user = await User2.findByIdAndUpdate(req.params.id,
-    {
-        fullName:req.body.fname,
-        email:req.body.email
+};
+const updateUser = async (req, res, next) => {
+    try {
+        const user = await User2.findByIdAndUpdate(req.params.id,
+            {
+                $set: {
+                    fullName: req.body.fname,
+                    email: req.body.email
+                }
+            }, { new: true }
+        );
+        res.status(200).json(user);
+    } catch (err) {
+        next(err);
     }
-    
+};
 
-,{new:true}
-)
-const result = await user.save();
-res.send(result);
-console.log(result);
+const deleteUser = async (req, res, next) => {
+    try {
 
-}
-const deleteUser = async(req,res)=>{
-    try{
-
-        
         const user = await User2.findByIdAndRemove(req.params.id).exec();
-        if(user){
-            console.log('user deleted');
-            console.log(user);
-            res.send(user).sendStatus(204);
-        } 
-    }
-    catch(err){
-        console.log(err.message);
+        console.log('user deleted');
+        console.log(user);
+        res.send(user).sendStatus(204);
 
     }
-}
-const getOneUser = async(req,res)=>{
-    const user = await User2.findOne({_id:req.params.id});
-    if(user) {
-        console.log('user successfully found!');
-        res.send(user)
-    }else{
-        console.log(`uses with id ${req.params.id} is not found!`);
+    catch (err) {
+        next(err);
     }
 }
-module.exports = {getUser,createNewUser,updateUser,deleteUser,getOneUser}
+const getOneUser = async (req, res, next) => {
+    try {
+        const user = await User2.findOne({ _id: req.params.id });
+        if (!user) return createError(401, "User not found!");
+        res.status(200).json(user);
+    } catch (err) {
+        next(err)
+    }
+}
+module.exports = { getUser, createNewUser, updateUser, deleteUser, getOneUser }

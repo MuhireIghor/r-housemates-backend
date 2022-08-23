@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User2 = require('../models/User2');
 
-const handleLogIn = async (req, res) => {
+const handleLogIn = async (req, res,next) => {
     try {
         const { fname, pwd, email } = req.body;
         if (!fname||!pwd||!email) {
@@ -10,28 +10,22 @@ const handleLogIn = async (req, res) => {
         };
         const foundeUser = await User2.findOne({ fullName:fname}).exec();
         if (!foundeUser) {
-            return res.status(401).json({ "message": "Unauthorised" })
+            return res.status(401).json({ "message": "no user found!" })
         }
         console.log(foundeUser);
         const match = await bcrypt.compare(pwd,foundeUser.password);
         console.log(match);
         console.log(pwd);
         if (match){
-            const roles = Object.values(foundeUser.roles)
+        
             const accessToken = jwt.sign({
-                "AboutUser":{
-                    "fullName": foundeUser.fullName,
-                    "email": foundeUser.email,
-                    "roles":roles
-                }
-            }, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '60s'
-            })
+                    fullName: foundeUser.fullName,
+                    email: foundeUser.email,
+                     }, process.env.ACCESS_TOKEN_SECRET)
             const refreshToken = jwt.sign({
-                "fullName": foundeUser.fullName,
-                "email": foundeUser.email
-            }, process.env.REFRESH_TOKEN_SECRET,
-                { expiresIn: '1d' })
+                fullName: foundeUser.fullName,
+                email: foundeUser.email
+            }, process.env.REFRESH_TOKEN_SECRET)
             foundeUser.refreshToken = refreshToken;
             const result = await foundeUser.save();
             res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
@@ -39,11 +33,9 @@ const handleLogIn = async (req, res) => {
 }
 else{
     return res.status(401).json({ message: "Unauthorised" })
-}
-        
-    }
+}}
     catch (err) {
-        console.error(err);
+        next(err);
     }
 }
 module.exports = { handleLogIn }

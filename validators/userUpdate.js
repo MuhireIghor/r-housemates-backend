@@ -6,9 +6,9 @@ const  User2 = require('../models/User2');
 const validateUser = async(req,res,next)=>{
     try{
         const schema = Joi.object({
-            fullName:Joi.string().required().alphanum(),
+            fname:Joi.string().required().alphanum(),
             email:Joi.required().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
-            password:Joi.required().unique().string()
+            pwd:Joi.required().unique().string()
         });
         const{error} = await schema.validate(req.body);
         if(error){

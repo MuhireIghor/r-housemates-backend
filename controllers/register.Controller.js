@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const User2 = require('../models/User2');
-const handleNewUser = async(req,res)=>{
+const handleNewUser = async(req,res,next)=>{
     try{
     const{fname,pwd,email} = req.body;
     if(!fname || !pwd || !email){
@@ -23,8 +23,7 @@ const handleNewUser = async(req,res)=>{
         console.log(newUser);
     }
     catch(err){
-        console.error(err);
-     res.sendStatus(500).json({error:true,message:"an error occured"})
+    next(err)
     }
    
 }

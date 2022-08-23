@@ -3,7 +3,7 @@ const User2 = require('../models/User2');
 const jwt = require('jsonwebtoken');
 const handleLogOut = async(req,res)=>{
     const cookies = req.cookies;
-    if(!cookies?.refreshToken) return res.status(403).json({message:'Unauthorised'});
+    if(!cookies?.refreshToken) return res.status(403).json({message:'Unauthorised as No cookie is found!'});
     const refreshToken = cookies.refreshToken;
     console.log(refreshToken);
     const foundeUser = await User2.findOne({refreshToken}).exec();

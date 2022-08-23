@@ -10,7 +10,7 @@ const swaggerUI = require('swagger-ui-express');
 const { specs } = require('./config/swagger');
 const dbConn = require('./config/dbConn');
 const errorHandler = require('./middlewares/errorHandler');
-const verifyJwt = require('./middlewares/verifyJwt');
+const {verifyJwt} = require('./middlewares/verifyJwt');
 const credentials = require('./middlewares/credentials');
 const isLoggedin = require('./middlewares/isLoggedin');
 const swaggerJson = require('./swagger.json')
@@ -45,7 +45,7 @@ app.get('/auth/failure', (req, res) => {
     res.send('something went wrong!!')
 })
 app.get('/protected', isLoggedin, (req, res) => {
-    res.send(`hello ${req.user.userName}`)
+    res.send(`hello ${req.user.username}`)
 })
 app.get('/passportlogout', (req, res) => {
     res.logout();
@@ -55,8 +55,10 @@ app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresher', require('./routes/refresher'));
 app.use('/logout', require('./routes/logout'));
-// app.use(verifyJwt);
+app.use(verifyJwt);
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/property', require('./routes/api/property'));
+app.use('/api/search', require('./routes/api/search'));
 app.use(errorHandler)
 mongoose.connection.once('open',
     () => {

@@ -14,12 +14,10 @@ const userSchema = new Schema({
         required:[true,'Email is required please!'],
         // match:[/s+@+gmail+.+s+/,'Email is invalid']
     },
-    roles:{
-        user:Number,
-        admin:{
-            type:Number,
-            default:2
-        }
+    isAdmin:{
+        type:Boolean,
+        default:false
     }
+
 });
 module.exports = mongoose.model('User2',userSchema);
