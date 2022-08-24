@@ -17,11 +17,11 @@
     "tags": [
         {
             "name": "Users",
-            "description":"The User managing API"
+            "description": "The User managing API"
         },
         {
             "name": "Property",
-            "description":"Property sorting API"
+            "description": "Property sorting API"
         }
     ],
     "paths": {
@@ -35,7 +35,10 @@
                 "produces": [
                     "application/json"
                 ],
-                "consumes":["multipart/form-data","application/x-www.form.urlencoded"],
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www.form.urlencoded"
+                ],
                 "responses": {
                     "200": {
                         "description": "User found successfully!"
@@ -136,18 +139,23 @@
                     }
                 }
             },
-            "delete":{
-                "description":"Delete a user by id",
-                "summary":"Delete a user by id",
-                "tags":["Users"],
-                "produces":["application/json"],
-                "parameters":[
-                    {"in":"path",
-                    "name":"id",
-                    "description":"The auto-generated id of the user",
-                    "type":"string",
-                    "required":true
-                }
+            "delete": {
+                "description": "Delete a user by id",
+                "summary": "Delete a user by id",
+                "tags": [
+                    "Users"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The auto-generated id of the user",
+                        "type": "string",
+                        "required": true
+                    }
                 ],
                 "responses": {
                     "204": {
@@ -163,14 +171,17 @@
                         "description": "Internal server error"
                     }
                 }
-
             },
-            "put":{
-                "description":"Update the user by Id",
-                "summary":"Update the user by Id",
-                "tags":["Users"],
-                "produces":["application/json"],
-                "parameters":[
+            "put": {
+                "description": "Update the user by Id",
+                "summary": "Update the user by Id",
+                "tags": [
+                    "Users"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
                     {
                         "in": "formData",
                         "name": "fullName",
@@ -192,61 +203,15 @@
                         "type": "string",
                         "required": true
                     },
-                  
-                    { 
-                    "in":"path",
-                    "name":"id",
-                    "description":"Id of the user",
-                    "type":"string",
-                    "required":true
-                }
-
-                    
-                ],
-                "responses":{
-                 
-                        "200": {
-                            "description": "Success"
-                        },
-                        "203": {
-                            "description": "Updated"
-                        },
-                        "400": {
-                            "description": "Invalid data"
-                        },
-                        "404": {
-                            "description": "Not found"
-                        },
-                        "500": {
-                            "description": "Internal server error"
-                        }
-                    
-                }
-
-            }
-        },
-        "/api/search/":{
-            "get":{
-                "tags":[
-                    "Property"
-                ],
-                "summary":"Returns different properties based ont he filtering query",
-                "description":"Returns different properties based ont he filtering query",
-                "produces":["application/json"],
-                "consumes":["multipart/form-data","application/x-www.form.urlencoded"],
-                "parameters":[
                     {
-                        "in":"query",
-                        "name":"properties",
-                        "required":"true",
-                        "schema":{
-                            "type":"string",
-                            "enum":["rent,housemate,sale"]
-                            
-                        }
+                        "in": "path",
+                        "name": "id",
+                        "description": "Id of the user",
+                        "type": "string",
+                        "required": true
                     }
-                ],"responses":{
-                 
+                ],
+                "responses": {
                     "200": {
                         "description": "Success"
                     },
@@ -262,11 +227,263 @@
                     "500": {
                         "description": "Internal server error"
                     }
-                
+                }
             }
-
-
-                
+        },
+        "/api/search/": {
+            "get": {
+                "tags": [
+                    "Property"
+                ],
+                "summary": "Returns different properties based ont he filtering query",
+                "description": "Returns different properties based ont he filtering query",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www.form.urlencoded"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "options",
+                        "required": "true",
+                        "type": "string",
+                        "enum": [
+                            "rent",
+                            "housemate",
+                            "sale"
+                        ]
+                        }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "203": {
+                        "description": "Updated"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/property": {
+            "get": {
+                "tags": [
+                    "Property"
+                ],
+                "description": "Gets all properties",
+                "summary": "Gets all properties",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www.form.urlencoded"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Property found successfully!"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "401": {
+                        "description": "Unauthorised"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Property"
+                ],
+                "summary": "Create a new Property",
+                "description": "Create a new property",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "description": "name of the property",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "location",
+                        "description": "Location of the property",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "option",
+                        "description": "Purpose of the house",
+                        "type": "string",
+                        "enum": [
+                            "rent",
+                            "housemate",
+                            "sale"
+                        ],
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/property/{id}": {
+            "get": {
+                "tags": [
+                    "Property"
+                ],
+                "summary": "Gets a property by id",
+                "description": "Gets a property by id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The autogenerated id of the property",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a pproperty by id",
+                "summary": "Delete a property by id",
+                "tags": [
+                    "Property"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The auto-generated id of the user",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update a property by Id",
+                "summary": "Update the user by Id",
+                "tags": [
+                    "Property"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "description": "name of the property",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "location",
+                        "description": "Location of the property",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "price",
+                        "description": "Price of the property",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Id of the property",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "203": {
+                        "description": "Updated"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
             }
         }
     }

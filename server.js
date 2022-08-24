@@ -13,7 +13,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const {verifyJwt} = require('./middlewares/verifyJwt');
 const credentials = require('./middlewares/credentials');
 const isLoggedin = require('./middlewares/isLoggedin');
-const swaggerJson = require('./swagger.json')
+const swaggerJson = require('./swagger.json');
 require('./controllers/passport');
 // const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
@@ -55,7 +55,7 @@ app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresher', require('./routes/refresher'));
 app.use('/logout', require('./routes/logout'));
-app.use(verifyJwt);
+// app.use(verifyJwt);
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/property', require('./routes/api/property'));
 app.use('/api/search', require('./routes/api/search'));
