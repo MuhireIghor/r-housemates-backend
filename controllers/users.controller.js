@@ -8,16 +8,18 @@ const getUser = async (req, res) => {
     res.json(users).status(200);
 }
 const createNewUser = async (req, res, next) => {
-    if (!req?.body?.fname || !req?.body?.email || req?.body.pwd) {
-        return res.status(400).json({ "message": "fullname,email and password are required please!" })
+    if (!req?.body?.fname || !req?.body?.pwd || !req?.body?.email&&!req?.body?.phoneNumber) {
+        return res.status(400).json({ "message": "fullname,email or phoneNumber and password are required please!" })
     }
     try {
         const result = await User2.create({
             fullName: req.body.fname,
             email: req.body.email,
+            phoneNumber:req.body.phoneNumber,
             password: req.body.pwd
         });
-        res.status(201).json(result);
+        const {isAdmin,__v,...others} = result._doc
+        res.status(201).json(others);
     } catch (err) {
         next(err);
     }

@@ -8,11 +8,21 @@ const verifyJwt = (req, res, next) => {
         token,
         process.env.ACCESS_TOKEN_SECRET,
         (err, user) => {
-            if (err) return res.status(403);
+            if (err) return res.status(403).setHeader();
             req.user = user;
             return next();
         }
     )
+}
+const verifyAgent = (req,res,next)=>{
+    const agentToken = req.cookies.agentToken;
+    if(!agentToken) return res.status(404).json({message:'Agent not found!!'});
+    jwt.verify(agentToken,process.env.TOKEN,(err,agent)=>{
+        if(err) return res.status(403);
+        req.agent = agent;
+        return next()
+
+    })
 }
 const verifyAdmin = (req, res, next) => {
     verifyJwt(req, res, next, () => {
@@ -25,4 +35,4 @@ const verifyAdmin = (req, res, next) => {
         }
     })
 }
-module.exports = { verifyJwt, verifyAdmin };
+module.exports = { verifyJwt, verifyAdmin, verifyAgent };

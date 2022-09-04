@@ -11,8 +11,10 @@ const userSchema = new Schema({
     },
     email:{
         type:String,
-        required:[true,'Email is required please!'],
-        // match:[/s+@+gmail+.+s+/,'Email is invalid']
+    
+    },
+    phoneNumber:{
+        type:String
     },
     isAdmin:{
         type:Boolean,
