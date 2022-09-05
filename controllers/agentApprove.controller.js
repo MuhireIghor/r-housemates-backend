@@ -20,14 +20,15 @@ const registerAgent = async (req, res, next) => {
     const { phoneNumber, FullName } = req.body;
     if (!req?.body?.FullName || !req?.body?.phoneNumber) return res.status(400).json('fUllName and email are required please!');
     try {
-        const agentGiven = await Agent.find({ phoneNumber: phoneNumber, FullName: FullName }).exec();
+        const agentGiven = await Agent.find({ phoneNumber:phoneNumber,FullName:FullName}).exec();
+        if(!agentGiven) return res.status(400).json({message:'Bad credentials'})
+
         const agentToken = jwt.sign({
             "FullName": agentGiven.FullName,
             "phoneNumber": agentGiven.phoneNumber
         }, process.env.AGENT)
-        agentGiven.agentToken = agentToken;
-        const result = await agentGiven.save()
-        res.cookie('agentToken', agentToken, { httpOnly: true });
+   res.json(agentToken);
+       
     } catch (err) {
         next(err)
     }

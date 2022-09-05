@@ -11,23 +11,24 @@ const { specs } = require('./config/swagger');
 const dbConn = require('./config/dbConn');
 const errorHandler = require('./middlewares/errorHandler');
 const {verifyJwt} = require('./middlewares/verifyJwt');
+const verifyJwt2= require('./middlewares/agent');
 const credentials = require('./middlewares/credentials');
 const isLoggedin = require('./middlewares/isLoggedin');
 const swaggerJson = require('./swagger.json');
 require('./controllers/passport');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 3000;
 const app = express();
 dbConn();
-app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session())
+// app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+// app.use(passport.initialize());
+// app.use(passport.session())
+app.use(cookieParser())
 app.set('view engine', 'ejs');
 app.use(credentials);
 app.use(cors(corsOptions))
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser())
+app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 app.use('/public', express.static('public'));
 app.get('/', (req, res) => {
@@ -62,6 +63,7 @@ app.use('/api/search', require('./routes/api/search'));
 app.use('/agent',async(req,res)=>{
     res.redirect(301,'./views/login.ejs')
 })
+app.use(verifyJwt2)
 app.use('/api/agentReg',require('./routes/api/agent'))
 app.use(errorHandler)
 mongoose.connection.once('open',
