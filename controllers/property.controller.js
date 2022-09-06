@@ -55,4 +55,17 @@ const getOneProperty = async (req, res, next) => {
         next(err)
     }
 }
-module.exports = { getProperty, createNewProperty, updateProperty, deleteProperty, getOneProperty }
+const likeProperty = async(req,res)=>{
+    const {id} = req.params;
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No property with that Id");
+    try{
+  const post = await Property.findById(id);
+      const updatedPost = await Property.findByIdAndUpdate(id,{likeCount:post.likeCount+1},{new:true});
+      res.json(updatedPost);
+  
+    }catch(error){
+      console.log(error);
+    }
+  
+  }
+module.exports = { getProperty, createNewProperty, updateProperty, deleteProperty, getOneProperty,likeProperty }

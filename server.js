@@ -15,18 +15,48 @@ const verifyJwt2= require('./middlewares/agent');
 const credentials = require('./middlewares/credentials');
 const isLoggedin = require('./middlewares/isLoggedin');
 const swaggerJson = require('./swagger.json');
+const http = require('http');
+const {Server} = require('socket.io')
 require('./controllers/passport');
 const cookieParser = require('cookie-parser');
+const production = require('./config/production')
 const PORT = process.env.PORT || 3000;
 const app = express();
 dbConn();
-// app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
-// app.use(passport.initialize());
-// app.use(passport.session())
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+    },
+  });
+  
+  io.on("connection", (socket) => {
+    console.log(`User Connected: ${socket.id}`);
+  
+    socket.on("join_room", (data) => {
+      socket.join(data);
+      console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    });
+  
+    socket.on("send_message", (data) => {
+      socket.to(data.room).emit("receive_message", data);
+      socket.to(data.room1).emit("receive_message", data);
+    });
+  
+    socket.on("disconnect", () => {
+      console.log("User Disconnected", socket.id);
+    });
+  });
+  app.use(credentials);
+  app.use(cors(corsOptions))
+  production(app);
+
+app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session())
 app.use(cookieParser())
 app.set('view engine', 'ejs');
-app.use(credentials);
-app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
