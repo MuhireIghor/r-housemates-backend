@@ -6,7 +6,7 @@ const searchContent = async(req,res,next)=>{
     try{
         const properties = await Promise.all(options.map(async (opt)=>{
             const match = await Property.find({option:opt});
-            res.status(200).json(match);
+            res.status(200).json({result:match});
 
         }))
 
