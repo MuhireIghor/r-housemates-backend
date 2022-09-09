@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const createAgent = async (req, res, next) => {
     const { phoneNumber, FullName } = req.body;
-    if (!req?.body?.FullName || !req?.body?.phoneNumber) return res.status(400).json('fUllName and email are required please!');
+    if (!req?.body?.FullName || !req?.body?.phoneNumber) return res.status(400).json({message:'fUllName and email are required please!'});
     try {
         const result = await Agent.create(req.body);
         res.status(201).json(result)
