@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema;
-const propertySchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const propertySchema = new Schema({
     name:{
         type:String,
         required:[true,"The propery name is required !"]
@@ -35,8 +35,31 @@ const propertySchema = new mongoose.Schema({
         enum:["sale","rent","housemate"]
     },
     likeCount:{
-        type:Number,
-        default:0
-    }
+        type:[String],
+        default:[]
+    }, carParking:{
+        type:Boolean,
+        default:false
+    },
+    FullyFurnished:{
+        type:Boolean ,
+        default:false
+        
+    },
+    constIncludeSocialFacilities:{
+        type:Boolean ,
+        default:false
+        },
+    PartlyFurnished:{
+        type:Boolean,
+        required:function(){
+            return this.FullyFurnished === false
+        }
+    },
+    payFor3months:{
+        type:Boolean ,
+        default:false
+    },
+    
 })
 module.exports = mongoose.model('Property',propertySchema);

@@ -19,7 +19,8 @@ const handleLogIn = async (req, res,next) => {
             const accessToken = jwt.sign({
                     fullName: foundeUser.fullName,
                     email: foundeUser.email,
-                    isAdmin:foundeUser.isAdmin
+                    isAdmin:foundeUser.isAdmin,
+                    id:foundeUser._id
                      }, process.env.ACCESS_TOKEN_SECRET)
             const refreshToken = jwt.sign({
                 fullName: foundeUser.fullName,

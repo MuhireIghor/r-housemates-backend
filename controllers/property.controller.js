@@ -1,6 +1,7 @@
 const express = require('express');
 const Property = require('../models/Property')
 const createError = require('../config/error');
+const { string } = require('joi');
 const getProperty = async (req, res) => {
     const Properties = await Property.find();
     console.log(Properties);
@@ -26,7 +27,7 @@ const createNewProperty = async (req, res, next) => {
         next(err);
     }
 };
-const updateProperty = async (req, res, next) => {
+const updateProperty = async (req,res,next) => {
     try {
         const property = await Property.findByIdAndUpdate(req.params.id,
             {
@@ -65,7 +66,13 @@ const likeProperty = async(req,res)=>{
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No property with that Id");
     try{
   const post = await Property.findById(id);
-      const updatedPost = await Property.findByIdAndUpdate(id,{likeCount:post.likeCount+1},{new:true});
+  const index = post.likeCount.findIndex((id)=>id===string(req.user.id));
+  if(index===-1){
+    post.likeCount.push(req.user.id)
+  }else{
+    post.likeCount = post.likeCount.filter((id)=>id!== string(req.user.id))
+  }
+      const updatedPost = await Property.findByIdAndUpdate(id,post,{new:true});
       res.json(updatedPost);
   
     }catch(error){
