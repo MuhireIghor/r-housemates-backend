@@ -5,8 +5,28 @@ const propertySchema = new mongoose.Schema({
         type:String,
         required:[true,"The propery name is required !"]
     },
-    location:{
-        type:String,
+    Bedroom:{
+        type:Number,
+        required:true
+    },
+    Sittingroom:{
+        type:Number,
+        required:true,
+    },
+    kitchen:{
+        type:Number,
+        required:true
+    },
+    noPerson:{
+        type:Number,
+        required:true
+    },
+    noFemale:{
+        type:Number,
+        required:true
+    },
+    noMale:{
+        type:Number,
         required:true
     },
     option:{
