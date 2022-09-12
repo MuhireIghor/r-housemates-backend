@@ -43,8 +43,7 @@ const propertySchema = new Schema({
     },
     FullyFurnished:{
         type:Boolean ,
-        default:false
-        
+        default:false        
     },
     constIncludeSocialFacilities:{
         type:Boolean ,
