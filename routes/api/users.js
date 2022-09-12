@@ -6,10 +6,10 @@ const verifyRoles= require('../../middlewares/verifyRoles');
 const roles =require('../../config/rolesList');
 const {verifyAdmin,verifyJwt} = require('../../middlewares/verifyJwt');
 
-router.get('/',verifyJwt,verifyAdmin,getUser.getUser);
-router.post('/',getUser.createNewUser)
-router.put('/:id',getUser.updateUser)   
-router.delete('/:id',verifyRoles(roles.admin),getUser.deleteUser)
-router.get('/:id',getUser.getOneUser)
+router.get('/',verifyJwt,getUser.getUser);
+router.post('/',verifyJwt,getUser.createNewUser)
+router.put('/:id',verifyJwt,getUser.updateUser)   
+router.delete('/:id',verifyJwt,getUser.deleteUser)
+router.get('/:id',verifyJwt,getUser.getOneUser)
 
 module.exports = router;

@@ -29,7 +29,7 @@ const verifyAgent = (req,res,next)=>{
 }
 const verifyAdmin = (req,res,next) => {
     verifyJwt(req,res,() => {
-        if (req.user.isAdmin === true) {
+        if (req.user.isAdmin) {
             next();
         }
         else {

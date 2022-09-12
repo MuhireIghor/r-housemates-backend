@@ -8,10 +8,12 @@ const handleLogIn = async (req, res,next) => {
         if (!fname||!pwd||!email) {
             return res.status(400).json({ "message": "FullName ,email and password are required please" })
         };
-        const foundeUser = await User2.findOne({ fullName:fname,pwd:pwd}).exec();
+        const foundeUser = await User2.findOne({fullName:fname}).exec();
         if (!foundeUser) {
-            return res.status(401).json({ "message": "no user found!" })
+            return res.status(401).json({ message: "no user found!" })
         }
+        console.log(foundeUser);
+        console.log(foundeUser.password);
         const match = await bcrypt.compare(pwd,foundeUser.password);
         if (match){        
             const accessToken = jwt.sign({
