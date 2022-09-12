@@ -19,7 +19,6 @@ const http = require('http');
 const {Server} = require('socket.io')
 require('./controllers/passport');
 const cookieParser = require('cookie-parser');
-const production = require('./config/production')
 const PORT = process.env.PORT || 3000;
 const app = express();
 dbConn();
@@ -50,7 +49,7 @@ const io = new Server(server, {
   });
   app.use(credentials);
   app.use(cors(corsOptions))
-  production(app);
+
 
 app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
@@ -90,7 +89,7 @@ app.use('/logout', require('./routes/logout'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/property', require('./routes/api/property'));
 app.use('/api/search', require('./routes/api/search'));
-app.use(verifyJwt2)
+// app.use(verifyJwt2)
 app.use('/agent',async(req,res)=>{
     res.redirect(301,'./views/login.ejs')
 })

@@ -8,19 +8,16 @@ const handleLogIn = async (req, res,next) => {
         if (!fname||!pwd||!email) {
             return res.status(400).json({ "message": "FullName ,email and password are required please" })
         };
-        const foundeUser = await User2.findOne({ fullName:fname}).exec();
+        const foundeUser = await User2.findOne({ fullName:fname,pwd:pwd}).exec();
         if (!foundeUser) {
             return res.status(401).json({ "message": "no user found!" })
         }
-        console.log(foundeUser);
         const match = await bcrypt.compare(pwd,foundeUser.password);
-        console.log(match);
-        console.log(pwd);
-        if (match){
-        
+        if (match){        
             const accessToken = jwt.sign({
                     fullName: foundeUser.fullName,
                     email: foundeUser.email,
+                    isAdmin:foundeUser.isAdmin
                      }, process.env.ACCESS_TOKEN_SECRET)
             const refreshToken = jwt.sign({
                 fullName: foundeUser.fullName,
@@ -29,7 +26,7 @@ const handleLogIn = async (req, res,next) => {
             foundeUser.refreshToken = refreshToken;
             const result = await foundeUser.save();
             res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-            res.json(accessToken)
+            res.json({token:accessToken})
 }
 else{
     return res.status(401).json({ message: "Unauthorised" })

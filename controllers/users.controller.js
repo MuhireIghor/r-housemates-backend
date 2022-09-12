@@ -3,6 +3,7 @@ const User2 = require('../models/User2');
 const bcrypt = require('bcrypt');
 const createError = require('../config/error');
 const getUser = async (req, res) => {
+    console.log(req.user);
     const users = await User2.find();
     console.log(users);
     res.json(users).status(200);
