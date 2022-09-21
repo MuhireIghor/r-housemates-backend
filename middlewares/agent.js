@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
 const createError = require('../config/error');
 const verifyJwt2 = (req, res, next) => {
-const cookie = req.cookies;
-console.log(cookie);
+const cookie = req.headers.authorization;
+const token  = cookie.split(' ')[1];
+const {FullName }= jwt.verify(token,process.env.AGENT);
+console.log(FullName);
     // if (!authHeaders?.startsWith('Bearer ')) return res.status(401).json({message:"Unauthorisedkok"});
     // const token = authHeaders.split(' ')[1];
     // jwt.verify(
