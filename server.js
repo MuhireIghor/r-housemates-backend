@@ -10,7 +10,6 @@ const swaggerUI = require('swagger-ui-express');
 const { specs } = require('./config/swagger');
 const dbConn = require('./config/dbConn');
 const errorHandler = require('./middlewares/errorHandler');
-const verifyJwt2= require('./middlewares/agent');
 const credentials = require('./middlewares/credentials');
 const isLoggedin = require('./middlewares/isLoggedin');
 const swaggerJson = require('./swagger.json');
@@ -88,7 +87,6 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/property', require('./routes/api/property'));
 app.use('/api/search', require('./routes/api/search'));
 app.use('/api/agentReg',require('./routes/api/agent'))
-app.use(verifyJwt2);
 app.get('/agent',async(req,res)=>{
   res.json({message:"Hello world"})
 })

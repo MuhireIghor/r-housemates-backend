@@ -3,8 +3,11 @@ const createError = require('../config/error');
 const verifyJwt2 = (req, res, next) => {
 const cookie = req.headers.authorization;
 const token  = cookie.split(' ')[1];
-const {FullName }= jwt.verify(token,process.env.AGENT);
-console.log(FullName);
+ jwt.verify(token,process.env.AGENT,(err,agent)=>{
+    if(err) return res .status(403);
+    console.log(agent);
+
+ });
     // if (!authHeaders?.startsWith('Bearer ')) return res.status(401).json({message:"Unauthorisedkok"});
     // const token = authHeaders.split(' ')[1];
     // jwt.verify(
