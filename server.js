@@ -12,6 +12,7 @@ const dbConn = require('./config/dbConn');
 const errorHandler = require('./middlewares/errorHandler');
 const credentials = require('./middlewares/credentials');
 const isLoggedin = require('./middlewares/isLoggedin');
+const verifyJWT2 = require('./middlewares/agent')
 const swaggerJson = require('./swagger.json');
 const http = require('http');
 const {Server} = require('socket.io')
@@ -87,7 +88,7 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/property', require('./routes/api/property'));
 app.use('/api/search', require('./routes/api/search'));
 app.use('/api/agentReg',require('./routes/api/agent'))
-app.get('/agent',async(req,res)=>{
+app.get('/agent',verifyJWT2,async(req,res)=>{
   res.json({message:"Hello world"})
 })
 app.use(errorHandler)

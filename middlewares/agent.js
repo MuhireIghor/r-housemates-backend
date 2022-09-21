@@ -6,6 +6,7 @@ const token  = cookie.split(' ')[1];
  jwt.verify(token,process.env.AGENT,(err,agent)=>{
     if(err) return res .status(403);
     console.log(agent);
+    return next();
 
  });
     // if (!authHeaders?.startsWith('Bearer ')) return res.status(401).json({message:"Unauthorisedkok"});
