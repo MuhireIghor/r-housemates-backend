@@ -5,10 +5,11 @@ const Agent = require('../models/Agent');
 const jwt = require('jsonwebtoken');
 
 const createAgent = async (req, res, next) => {
-    const { phoneNumber, FullName } = req.body;
     if (!req?.body?.FullName || !req?.body?.phoneNumber) return res.status(400).json({message:'fUllName and email are required please!'});
+    const agent = req.body;
+    const result = new Agent(agent)
     try {
-        const result = await Agent.create(req.body);
+        await result.save();
         res.status(201).json(result)
 
     }
@@ -27,7 +28,7 @@ const registerAgent = async (req, res, next) => {
             "FullName": agentGiven.FullName,
             "phoneNumber": agentGiven.phoneNumber
         }, process.env.AGENT)
-   res.json(agentToken);
+   res.cookie('agentToken'.agentToken,{httpOnly:true});
        
     } catch (err) {
         next(err)

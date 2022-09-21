@@ -8,16 +8,16 @@ const getProperty = async (req, res) => {
     res.json(Properties).status(200);
 }
 const createNewProperty = async (req, res, next) => {
-    // if (!req?.body?.name || !req?.body?.Bedroom ||!req.body.SittingRoom ||!req.body.noFemale ||!req.body.noMale ||!req.body.noPerson ||!req.body.kitchen || !req?.body?.option) {
-    //     return res.status(400).json({ message: "Please fill all the needed details!" })
-    // }
+    if (!req?.body?.name || !req?.body?.Bedroom ||!req?.body?.Sittingroom ||!req?.body?.noFemale ||!req?.body?.noMale ||!req?.body?.noPerson ||!req?.body?.kitchen || !req?.body?.option) {
+        return res.status(400).json({ message: "Please fill all the needed details!" })
+    }
     const post = req.body;
     const result = new Property(post)
     try {
         // const result = await Property.create({
         //     post
         //     // name: req.body.name,
-        //     // Sittingroom: req.body.SittingRoom,
+            // Sittingroom: req.body.SittingRoom,
         //     // Bedroom:req.body.Bedroom,
         //     // noFemale:req.body.noFemale,
         //     // noMale:req.body.noMale,

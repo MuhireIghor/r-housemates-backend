@@ -87,7 +87,7 @@ app.use('/logout', require('./routes/logout'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/property', require('./routes/api/property'));
 app.use('/api/search', require('./routes/api/search'));
-// app.use(verifyJwt2)
+app.use(verifyJwt2);
 app.use('/agent',async(req,res)=>{
     res.redirect(301,'./views/login.ejs')
 })
